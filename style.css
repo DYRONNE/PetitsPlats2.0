@@ -1,0 +1,84 @@
+.card {
+    width: 450px;
+    border: none;
+    height: 700px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    
+}
+img {
+    object-fit: cover;
+    width: 450px;
+    height: 253px;
+    border-radius: 20px 20px 0px 0px;
+
+}
+h2 {
+    font-family: Anton;
+    font-weight: 400;
+    font-size: 20px;
+    padding: 10px 0px 10px 0px;
+}
+h3 {
+    font-size: 14px;
+    font-weight: 700;
+    font-family: "Manrope", sans-serif;
+    color: #7A7A7A;
+}
+.recipes-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px; 
+    justify-items: center; 
+    padding: 20px; 
+    margin: 0 auto; 
+}
+.card-content {
+    padding: 20px;
+}
+
+p {
+    overflow: hidden;
+    height: 80px;
+    font-family: "Manrope", sans-serif;
+    font-size: 14px;
+}
+
+
+.ingredients-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Définit deux colonnes de taille égale */
+    gap: 10px; /* Espace entre les colonnes */
+}
+
+.ingredients-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: contents; /* Permet de distribuer les éléments dans la grille sans conteneur */
+}
+
+
+.ingredient-name {
+    display: block;
+}
+    
+
+.ingredient-quantity {
+    display: block;
+    color: #7A7A7A; 
+    margin-top: 4px; }
+
+
+  .ingredient-item {
+    cursor: pointer;
+    list-style-type:none;
+  }
+
+.clicked {
+    background-color: aqua;
+}
+
+.filters {
+    display: flex;
+}
