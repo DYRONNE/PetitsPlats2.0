@@ -88,7 +88,8 @@ async function filterByType(filteredRecipes, displayRecipes, type) {
 
         itemsList.forEach(item => {
             let li = document.createElement('li');
-            li.textContent = item.charAt(0).toUpperCase() + item.slice(1);
+            // prend la premiere lettre la mets en maj et colle le reste
+            li.textContent = item.charAt(0).toUpperCase() + item.slice(1);  
             li.classList.add(`${type}-item`);
 
             // Écouteur d'événement pour chaque élément
