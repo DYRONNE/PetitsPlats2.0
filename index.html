@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+      
 </head>
 <body>
     <header>
@@ -23,18 +25,19 @@
                 <input type="text" class="form-control" placeholder="Rechercher une recette, un ingrédient..." style="font-family: Manrope;">
                 <button class="btn btn-primary">Rechercher</button>
             </div>
+            <div class="message-container"></div>
         </div>
     </header>
     <div class="filters">
         <!-- Dropdown Ingrédients -->
         <div class="dropdown">
-            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-light dropdown-toggle buttondrop" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             Ingrédients
             </button>
-            <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
+            <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton">
                 <!-- Champ de recherche pour les ingrédients -->
                 <li class="mb-2">
-                    <input type="text" class="form-control-ingredients" id="ingredientSearch" placeholder="Rechercher...">
+                    <input type="text" class="form-control-ingrédients input-filter" id="ingredientSearch" placeholder="Rechercher...">
                 </li>
                 <div class="tag-ingrédients"></div>
                 <!-- Liste des ingrédients -->
@@ -43,13 +46,13 @@
         </div>
         <!-- Dropdown Appareils -->
         <div class="dropdown">
-            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-light dropdown-toggle buttondrop" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             Appareils
             </button>
-            <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
+            <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton">
                 <!-- Champ de recherche pour les appareils -->
                 <li class="mb-2">
-                    <input type="text" class="form-control-appareils" id="appareilsSearch" placeholder="Rechercher...">
+                    <input type="text" class="form-control-appareils input-filter" id="appareilsSearch" placeholder="Rechercher...">
                 </li>
                 <div class="tag-appareils"></div>
                 <!-- Liste des appareils -->
@@ -59,13 +62,13 @@
     
         <!-- Dropdown Ustensiles -->
         <div class="dropdown">
-            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-light dropdown-toggle buttondrop" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             Ustensiles
             </button>
-            <ul class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton">
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <!-- Champ de recherche pour les ustensiles -->
                 <li class="mb-2">
-                    <input type="text" class="form-control-ustensiles" id="ustensilesSearch" placeholder="Rechercher...">
+                    <input type="text" class="form-control-ustensiles input-filter" id="ustensilesSearch" placeholder="Rechercher...">
                 </li>
                 <div class="tag-ustensiles"></div>
                 <!-- Liste des ustensiles -->

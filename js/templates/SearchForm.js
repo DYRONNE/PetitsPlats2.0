@@ -2,6 +2,7 @@ export function onSearch(recipes, displayRecipes) {
     const searchInput = document.querySelector('.form-control');
     let debounceTimeout;
     let filteredRecipes = recipes; // Stocker les recettes filtrées
+    const messageContainer = document.querySelector('.message-container'); // Créez ou sélectionnez un conteneur pour le message
 
     searchInput.addEventListener('keyup', e => {
         const query = e.target.value.trim();
@@ -24,6 +25,12 @@ export function onSearch(recipes, displayRecipes) {
                 });
 
                 console.log('Filtered Recipes:', filteredRecipes);
+                if (filteredRecipes.length === 0) {
+                    messageContainer.textContent = `Il n'existe aucune recette avec "${query}". Essayez plutôt "tarte aux pommes".`;
+                } else {
+                    messageContainer.textContent = ''; // Effacer le message si des recettes sont trouvées
+                }
+
                 displayRecipes(filteredRecipes);
 
                 // Appel à filterByType avec les recettes filtrées
@@ -33,6 +40,7 @@ export function onSearch(recipes, displayRecipes) {
 
             } else if (query.length === 0) {
                 filteredRecipes = recipes; // Réinitialiser la liste des recettes filtrées
+                messageContainer.textContent = ''; // Effacer le message
                 displayRecipes(recipes);
                 // Réinitialiser la liste des ingrédients si la recherche est vide
                 filterByType(recipes, displayRecipes, 'ingrédients');
@@ -42,6 +50,7 @@ export function onSearch(recipes, displayRecipes) {
         }, 300);
     });
 }
+
 
 
 async function filterByType(filteredRecipes, displayRecipes, type) {
@@ -56,13 +65,13 @@ async function filterByType(filteredRecipes, displayRecipes, type) {
     filteredRecipes.forEach(recipe => {
         if (type === 'ingrédients') {
             recipe.ingredients.forEach(item => {
-                allItems.add(item.ingredient.toLowerCase());
+                allItems.add(item.ingredient.trim().toLowerCase()); // Éliminer les espaces
             });
         } else if (type === 'appareils') {
-            allItems.add(recipe.appliance.toLowerCase());
+            allItems.add(recipe.appliance.trim().toLowerCase()); // Éliminer les espaces
         } else if (type === 'ustensiles') {
             recipe.ustensils.forEach(item => {
-                allItems.add(item.toLowerCase());
+                allItems.add(item.trim().toLowerCase()); // Éliminer les espaces
             });
         }
     });
@@ -85,16 +94,16 @@ async function filterByType(filteredRecipes, displayRecipes, type) {
                 if (type === 'ingrédients') {
                     filteredByItem = filteredRecipes.filter(recipe =>
                         recipe.ingredients.some(i => 
-                            i.ingredient && i.ingredient.toLowerCase() === item
+                            i.ingredient && i.ingredient.toLowerCase().trim() === item
                         )
                     );
                 } else if (type === 'appareils') {
                     filteredByItem = filteredRecipes.filter(recipe =>
-                        recipe.appliance.toLowerCase() === item
+                        recipe.appliance.toLowerCase().trim() === item
                     );
                 } else if (type === 'ustensiles') {
                     filteredByItem = filteredRecipes.filter(recipe =>
-                        recipe.ustensils.some(i => i.toLowerCase() === item)
+                        recipe.ustensils.some(i => i.toLowerCase().trim() === item)
                     );
                 }
 
@@ -106,7 +115,7 @@ async function filterByType(filteredRecipes, displayRecipes, type) {
                 if (tagedelements) {
                     // Vérifier si l'item n'est pas déjà dans le wrapper
                     const existingTags = Array.from(tagedelements.children).map(tag => tag.textContent.toLowerCase());
-                    if (!existingTags.includes(item.toLowerCase())) {
+                    if (!existingTags.includes(item.toLowerCase().trim())) {
                         let tagLi = li.cloneNode(true);
 
                         // Écouteur pour retirer l'élément du tag lorsqu'il est cliqué
@@ -114,7 +123,7 @@ async function filterByType(filteredRecipes, displayRecipes, type) {
                             tagedelements.removeChild(tagLi);
 
                             // Réintégrer l'élément dans la liste des items disponibles
-                            allItems.add(item.toLowerCase());
+                            allItems.add(item.toLowerCase().trim()); // Réajouter à allItems
 
                             // Mettre à jour la liste des items restants
                             displayItems(Array.from(allItems));
@@ -127,11 +136,11 @@ async function filterByType(filteredRecipes, displayRecipes, type) {
                             remainingTags.forEach(tag => {
                                 filteredByRemainingTags = filteredByRemainingTags.filter(recipe => {
                                     if (type === 'ingrédients') {
-                                        return recipe.ingredients.some(i => i.ingredient.toLowerCase() === tag);
+                                        return recipe.ingredients.some(i => i.ingredient.toLowerCase().trim() === tag);
                                     } else if (type === 'appareils') {
-                                        return recipe.appliance.toLowerCase() === tag;
+                                        return recipe.appliance.toLowerCase().trim() === tag;
                                     } else if (type === 'ustensiles') {
-                                        return recipe.ustensils.some(i => i.toLowerCase() === tag);
+                                        return recipe.ustensils.some(i => i.toLowerCase().trim() === tag);
                                     }
                                 });
                             });
@@ -144,7 +153,7 @@ async function filterByType(filteredRecipes, displayRecipes, type) {
                     }
 
                     // Retirer l'item sélectionné de la liste
-                    allItems.delete(item.toLowerCase());
+                    allItems.delete(item.toLowerCase().trim()); // Retirer de allItems
 
                     // Mettre à jour la liste des items restants
                     displayItems(Array.from(allItems));
@@ -196,7 +205,7 @@ async function filterByType(filteredRecipes, displayRecipes, type) {
     });
 }
 
-
+// Fonction d'initialisation pour le système de filtrage
 export async function initFilterSystem(filteredRecipes, displayRecipes) {
     // Appel pour les ingrédients
     filterByType(filteredRecipes, displayRecipes, 'ingrédients');
