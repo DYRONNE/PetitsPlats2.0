@@ -11,7 +11,10 @@ export function onSearch(recipes, displayRecipes) {
         clearTimeout(debounceTimeout);
         debounceTimeout = setTimeout(() => {
             if (query.length >= 3) {
-                filteredRecipes = recipes.filter(recipe => {
+                filteredRecipes = []; // Réinitialiser les recettes filtrées
+
+                for (let i = 0; i < recipes.length; i++) {
+                    const recipe = recipes[i];
                     const nameMatch = recipe.name.toLowerCase().includes(query.toLowerCase());
                     const ingredientsMatch = recipe.ingredients.some(ingredientObj => 
                         ingredientObj.ingredient.toLowerCase().includes(query.toLowerCase())
@@ -21,8 +24,11 @@ export function onSearch(recipes, displayRecipes) {
                         utensil.toLowerCase().includes(query.toLowerCase())
                     );
 
-                    return nameMatch || ingredientsMatch || applianceMatch || ustensilsMatch;
-                });
+                    // Si l'une des conditions correspond, ajouter la recette aux recettes filtrées
+                    if (nameMatch || ingredientsMatch || applianceMatch || ustensilsMatch) {
+                        filteredRecipes.push(recipe);
+                    }
+                }
 
                 console.log('Filtered Recipes:', filteredRecipes);
                 if (filteredRecipes.length === 0) {
@@ -34,7 +40,7 @@ export function onSearch(recipes, displayRecipes) {
                 displayRecipes(filteredRecipes);
 
                 // Appel à filterByType avec les recettes filtrées
-                filterByType(filteredRecipes, displayRecipes, 'ingrédients'); // Changer ici
+                filterByType(filteredRecipes, displayRecipes, 'ingrédients'); 
                 filterByType(filteredRecipes, displayRecipes, 'appareils');
                 filterByType(filteredRecipes, displayRecipes, 'ustensiles');
 
