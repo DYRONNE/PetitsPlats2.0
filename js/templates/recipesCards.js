@@ -19,11 +19,11 @@ export class RecipesCards {
         const recipeCard = document.createElement('div');
         recipeCard.classList.add('card');
     
-        
         const contentWrapper = document.createElement('div');
         contentWrapper.classList.add('card-content'); 
         
         contentWrapper.innerHTML = `
+            <div class="time">${recipe.time}min</div>
             <h2>${recipe.name}</h2>
             <h3>RECETTE</h3>
             <p>${recipe.description}</p>
@@ -38,6 +38,8 @@ export class RecipesCards {
     
         // Append the contentWrapper div to the main recipe card
         recipeCard.appendChild(contentWrapper);
+
+        
     
         return recipeCard;
     }

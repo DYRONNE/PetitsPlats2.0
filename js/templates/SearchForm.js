@@ -1,16 +1,17 @@
+// fonction qui permet de filitre les recettes a partir de la query dans l´input principal 
 export function onSearch(recipes, displayRecipes) {
-    const searchInput = document.querySelector('.form-control');
-    let debounceTimeout;
+    const searchInput = document.querySelector('.form-control'); // va selectionner l´input
+    let debounceTimeout; // pour creer un delais dans la recerche en fonction de ce aui st tappé dans la barre de rechrche 
     let filteredRecipes = recipes; // Stocker les recettes filtrées
-    const messageContainer = document.querySelector('.message-container'); // Créez ou sélectionnez un conteneur pour le message
+    const messageContainer = document.querySelector('.message-container'); // Conteneur pour le message
 
     searchInput.addEventListener('keyup', e => {
         const query = e.target.value.trim();
-        console.log('Query:', query);
+        console.log('Query:', query);// va recuperer la valeure dans l´input
 
         clearTimeout(debounceTimeout);
         debounceTimeout = setTimeout(() => {
-            if (query.length >= 3) {
+            if (query.length >= 3) { 
                 filteredRecipes = recipes.filter(recipe => {
                     const nameMatch = recipe.name.toLowerCase().includes(query.toLowerCase());
                     const ingredientsMatch = recipe.ingredients.some(ingredientObj => 
@@ -32,6 +33,7 @@ export function onSearch(recipes, displayRecipes) {
                 }
 
                 displayRecipes(filteredRecipes);
+                updateRecipeCount(filteredRecipes);
 
                 // Appel à filterByType avec les recettes filtrées
                 filterByType(filteredRecipes, displayRecipes, 'ingrédients'); // Changer ici
@@ -51,8 +53,6 @@ export function onSearch(recipes, displayRecipes) {
     });
 }
 
-
-
 async function filterByType(filteredRecipes, displayRecipes, type) {
     let wrapper = document.querySelector(`.${type}`); // Sélectionner le wrapper correct
     wrapper.innerHTML = ''; // Vider le wrapper
@@ -68,112 +68,115 @@ async function filterByType(filteredRecipes, displayRecipes, type) {
                 allItems.add(item.ingredient.trim().toLowerCase()); // Éliminer les espaces
             });
         } else if (type === 'appareils') {
-            allItems.add(recipe.appliance.trim().toLowerCase()); // Éliminer les espaces
+            allItems.add(recipe.appliance.trim().toLowerCase()); 
         } else if (type === 'ustensiles') {
             recipe.ustensils.forEach(item => {
-                allItems.add(item.trim().toLowerCase()); // Éliminer les espaces
+                allItems.add(item.trim().toLowerCase()); 
             });
         }
     });
 
     // Fonction pour afficher les items dans le DOM
-    function displayItems(itemsList) {
-        contentWrapper.innerHTML = '';
+   function displayItems(itemsList) {
+    contentWrapper.innerHTML = ''; // Vider le conteneur des items
 
-        itemsList.forEach(item => {
-            let li = document.createElement('li');
-            li.textContent = item.charAt(0).toUpperCase() + item.slice(1);
-            li.classList.add(`${type}-item`);
+    itemsList.forEach(item => {
+        let li = document.createElement('li');
+        li.textContent = item.charAt(0).toUpperCase() + item.slice(1);
+        li.classList.add(`${type}-item`);
 
-            // Écouteur d'événement pour chaque élément
-            li.addEventListener('click', () => {
-                console.log(`${type} sélectionné : ${item}`);
-                let filteredByItem;
+        // Écouteur d'événement pour chaque élément
+        li.addEventListener('click', () => {
+            console.log(`${type} sélectionné : ${item}`);
+            let filteredByItem;
 
-                // Filtrer les recettes contenant l'élément sélectionné
-                if (type === 'ingrédients') {
-                    filteredByItem = filteredRecipes.filter(recipe =>
-                        recipe.ingredients.some(i => 
-                            i.ingredient && i.ingredient.toLowerCase().trim() === item
-                        )
-                    );
-                } else if (type === 'appareils') {
-                    filteredByItem = filteredRecipes.filter(recipe =>
-                        recipe.appliance.toLowerCase().trim() === item
-                    );
-                } else if (type === 'ustensiles') {
-                    filteredByItem = filteredRecipes.filter(recipe =>
-                        recipe.ustensils.some(i => i.toLowerCase().trim() === item)
-                    );
-                }
+            // Filtrer les recettes contenant l'élément sélectionné
+            if (type === 'ingrédients') {
+                filteredByItem = filteredRecipes.filter(recipe =>
+                    recipe.ingredients.some(i => 
+                        i.ingredient && i.ingredient.toLowerCase().trim() === item
+                    )
+                );
+            } else if (type === 'appareils') {
+                filteredByItem = filteredRecipes.filter(recipe =>
+                    recipe.appliance.toLowerCase().trim() === item
+                );
+            } else if (type === 'ustensiles') {
+                filteredByItem = filteredRecipes.filter(recipe =>
+                    recipe.ustensils.some(i => i.toLowerCase().trim() === item)
+                );
+            }
 
-                // Ajouter la classe .clicked
-                li.classList.add('clicked');
+            // Ajouter la classe .clicked
+            li.classList.add('clicked');
 
-                // Afficher l'item cliqué dans le wrapper approprié
-                const tagedelements = document.querySelector(`.tag-${type}`);
-                if (tagedelements) {
-                    // Vérifier si l'item n'est pas déjà dans le wrapper
-                    const existingTags = Array.from(tagedelements.children).map(tag => tag.textContent.toLowerCase());
-                    if (!existingTags.includes(item.toLowerCase().trim())) {
-                        let tagLi = li.cloneNode(true);
+            // Afficher l'item cliqué dans le wrapper approprié
+            const tagedelements = document.querySelector(`.tag-${type}`);
+            if (tagedelements) {
+                // Vérifier si l'item n'est pas déjà dans le wrapper
+                const existingTags = Array.from(tagedelements.children).map(tag => tag.textContent.toLowerCase());
+                if (!existingTags.includes(item.toLowerCase().trim())) {
+                    let tagLi = li.cloneNode(true);
 
-                        // Écouteur pour retirer l'élément du tag lorsqu'il est cliqué
-                        tagLi.addEventListener('click', () => {
-                            tagedelements.removeChild(tagLi);
+                    // Écouteur pour retirer l'élément du tag lorsqu'il est cliqué
+                    tagLi.addEventListener('click', () => {
+                        tagedelements.removeChild(tagLi);
 
-                            // Réintégrer l'élément dans la liste des items disponibles
-                            allItems.add(item.toLowerCase().trim()); // Réajouter à allItems
+                        // Réintégrer l'élément dans la liste des items disponibles
+                        allItems.add(item.toLowerCase().trim()); // Réajouter à allItems
 
-                            // Mettre à jour la liste des items restants
-                            displayItems(Array.from(allItems));
+                        // Mettre à jour la liste des items restants
+                        displayItems(Array.from(allItems));
 
-                            // Réafficher les recettes sans cet item
-                            const remainingTags = Array.from(tagedelements.children).map(tag => tag.textContent.toLowerCase());
-                            let filteredByRemainingTags = filteredRecipes;
+                        // Réafficher les recettes sans cet item
+                        const remainingTags = Array.from(tagedelements.children).map(tag => tag.textContent.toLowerCase());
+                        let filteredByRemainingTags = filteredRecipes;
 
-                            // Filtrer en fonction des tags restants
-                            remainingTags.forEach(tag => {
-                                filteredByRemainingTags = filteredByRemainingTags.filter(recipe => {
-                                    if (type === 'ingrédients') {
-                                        return recipe.ingredients.some(i => i.ingredient.toLowerCase().trim() === tag);
-                                    } else if (type === 'appareils') {
-                                        return recipe.appliance.toLowerCase().trim() === tag;
-                                    } else if (type === 'ustensiles') {
-                                        return recipe.ustensils.some(i => i.toLowerCase().trim() === tag);
-                                    }
-                                });
+                        // Filtrer en fonction des tags restants
+                        remainingTags.forEach(tag => {
+                            filteredByRemainingTags = filteredByRemainingTags.filter(recipe => {
+                                if (type === 'ingrédients') {
+                                    return recipe.ingredients.some(i => i.ingredient.toLowerCase().trim() === tag);
+                                } else if (type === 'appareils') {
+                                    return recipe.appliance.toLowerCase().trim() === tag;
+                                } else if (type === 'ustensiles') {
+                                    return recipe.ustensils.some(i => i.toLowerCase().trim() === tag);
+                                }
                             });
-
-                            // Afficher les recettes filtrées par les tags restants
-                            displayRecipes(filteredByRemainingTags);
                         });
 
-                        tagedelements.appendChild(tagLi);
-                    }
+                        // Afficher les recettes filtrées par les tags restants
+                        displayRecipes(filteredByRemainingTags);
+                        updateRecipeCount(filteredRecipes);
+                    });
 
-                    // Retirer l'item sélectionné de la liste
-                    allItems.delete(item.toLowerCase().trim()); // Retirer de allItems
-
-                    // Mettre à jour la liste des items restants
-                    displayItems(Array.from(allItems));
+                    tagedelements.appendChild(tagLi);
                 }
 
-                console.log(`Recettes filtrées par ${type}:`, filteredByItem);
+                // Retirer l'item sélectionné de la liste
+                allItems.delete(item.toLowerCase().trim()); // Retirer de allItems
 
-                // Afficher les recettes filtrées par l'élément sélectionné
-                displayRecipes(filteredByItem);
-            });
+                // Mettre à jour la liste des items restants
+                displayItems(Array.from(allItems));
+            }
 
-            // Ajouter l'élément de la liste au conteneur
-            contentWrapper.appendChild(li);
+            console.log(`Recettes filtrées par ${type}:`, filteredByItem);
+
+            // Afficher les recettes filtrées par l'élément sélectionné
+            displayRecipes(filteredByItem);
+            updateRecipeCount(filteredByItem);
         });
 
-        // Ajouter le conteneur dans le wrapper (si pas déjà fait)
-        if (!wrapper.contains(contentWrapper)) {
-            wrapper.appendChild(contentWrapper);
-        }
+        // Ajouter l'élément de la liste au conteneur
+        contentWrapper.appendChild(li);
+    });
+
+    // Ajouter le conteneur dans le wrapper (si pas déjà fait)
+    if (!wrapper.contains(contentWrapper)) {
+        wrapper.appendChild(contentWrapper);
     }
+}
+
 
     // Afficher tous les items au départ
     displayItems(Array.from(allItems));
@@ -182,31 +185,49 @@ async function filterByType(filteredRecipes, displayRecipes, type) {
     const searchInput = document.querySelector(`.form-control-${type}`);
 
     searchInput.addEventListener('keyup', e => {
+        // Récupération de la valeur saisie, mise en minuscules et suppression des espaces
         const query = e.target.value.trim().toLowerCase();
-
-        if (query.length >= 1) {
-            const filteredItems = Array.from(allItems).filter(item => 
-                item.includes(query)
-            );
-
-            // Afficher les items filtrés
+    
+        // Filtrage des éléments en fonction de la requête
+        const filteredItems = Array.from(allItems).filter(item => 
+            item.toLowerCase().includes(query) // Conversion en minuscules pour une recherche insensible à la casse
+        );
+    
+        // Vider le wrapper avant d'afficher les résultats
+        wrapper.innerHTML = '';
+    
+        // Afficher les éléments filtrés si la longueur de la requête est supérieure ou égale à 3
+        if (query.length >= 3) {
             displayItems(filteredItems);
         } else {
-            // Si la requête est vide, réafficher tous les items
-            displayItems(Array.from(allItems));
+            displayItems(Array.from(allItems)); // Afficher tous les éléments si la requête est trop courte
         }
     });
+    
 
+    
+    
     // Empêcher le repli du dropdown lors du clic sur un élément de la liste
     document.querySelectorAll('.dropdown').forEach(dropdown => {
         dropdown.addEventListener('click', function(e) {
             e.stopPropagation();  // Empêche la fermeture automatique du dropdown
         });
     });
+
+     
+}
+
+function updateRecipeCount(filteredRecipes) {
+    const numberDiv = document.querySelector('.number');
+    numberDiv.textContent = filteredRecipes.length + " recette" + (filteredRecipes.length > 1 ? "s" : "");
 }
 
 // Fonction d'initialisation pour le système de filtrage
 export async function initFilterSystem(filteredRecipes, displayRecipes) {
+
+    // Mise à jour du compteur de recettes total lors du chargement de la page
+    updateRecipeCount(filteredRecipes);
+
     // Appel pour les ingrédients
     filterByType(filteredRecipes, displayRecipes, 'ingrédients');
     

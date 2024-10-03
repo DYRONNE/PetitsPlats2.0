@@ -1,3 +1,17 @@
+/* disposition des cartes recettes  */
+.recipes-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px; 
+    justify-items: center; 
+    padding: 20px; 
+    margin: 0 auto; 
+}
+/* cartes recettes */
+.card-content {
+    padding: 20px;
+}
+
 .card {
     width: 450px;
     border: none;
@@ -25,17 +39,7 @@ h3 {
     font-family: "Manrope", sans-serif;
     color: #7A7A7A;
 }
-.recipes-wrapper {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 20px; 
-    justify-items: center; 
-    padding: 20px; 
-    margin: 0 auto; 
-}
-.card-content {
-    padding: 20px;
-}
+
 
 p {
     overflow: hidden;
@@ -62,8 +66,26 @@ p {
 .ingredient-name {
     display: block;
 }
-    
 
+/* temps de preparation des recettes div sur la photo des cartes  */
+.time {
+    position: relative;
+    text-align: center;
+    width: 70px;
+    background-color: #FFD15B;
+    border-radius: 30px;
+    bottom: 250px;
+    left: 320px;
+    padding:5px 10px;
+}
+
+.dropdown {
+    margin-left: 90px;
+    
+}
+    
+/* partie filitres  */
+/* quqnd le tag est selectionne */
 .clicked {
     background-color: #FFD15B;
     padding: 3px 0px;
@@ -76,10 +98,8 @@ p {
     background-color: lightgrey;
     
 }
-.dropdown {
-    margin-left: 90px;
-    
-}
+
+
 .ingrédients-item,
  .appareils-item,
   .ustensiles-item {
@@ -118,3 +138,16 @@ ul.ustensiles-content {
     cursor: pointer;
     
 }
+
+/* nombre total de recettes proposees  */
+.number {
+    width: 100px;
+    position: relative;
+    top: 20px;
+    left: 700px;
+    font-family: Anton;
+    font-weight: 400;
+    font-size: 20px;
+
+}
+

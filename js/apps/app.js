@@ -26,6 +26,8 @@ class App {
 
         // Initialisation du système de filtre
         initFilterSystem(this.recipes, this.displayRecipes.bind(this)); // Appel de la fonction de filtrage
+
+       
     }
 
     displayRecipes(recipes) {
