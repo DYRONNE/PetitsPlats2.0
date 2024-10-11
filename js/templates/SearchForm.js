@@ -7,7 +7,7 @@ export function onSearch(recipes, displayRecipes) {
 
     searchInput.addEventListener('keyup', e => {
         const query = e.target.value.trim();
-        console.log('Query:', query);// va recuperer la valeure dans l´input
+        console.log('Query:', query);// va recuperer la valeur dans l´input
 
         clearTimeout(debounceTimeout);
         debounceTimeout = setTimeout(() => {

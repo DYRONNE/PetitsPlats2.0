@@ -1,3 +1,7 @@
+.btn-custom {
+    color: black; /* Couleur de la police */
+    background-color: black;
+}
 /* disposition des cartes recettes  */
 .recipes-wrapper {
     display: grid;
